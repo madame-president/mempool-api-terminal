@@ -2,7 +2,8 @@ import requests
 
 def get_transaction_data(address):
     endpoint = f"https://mempool.space/api/address/{address}/txs"
-    raw_data, after_txid = [], None
+    raw_data, seen_txids = [], set()
+    after_txid = None
     try:
         while True:
             response = requests.get(f"{endpoint}?after_txid={after_txid}" if after_txid else endpoint)
@@ -11,8 +12,11 @@ def get_transaction_data(address):
             paginated_data = response.json()
             if not paginated_data:
                 break
-            raw_data.extend(paginated_data)
-            after_txid = paginated_data[-1]["txid"]
+            for tx in paginated_data:
+                if tx["txid"] not in seen_txids:
+                    seen_txids.add(tx["txid"])
+                    raw_data.append(tx)
+            after_txid = paginated_data[-1]["txid"] if paginated_data else None
         return raw_data
     except requests.RequestException:
         return None
