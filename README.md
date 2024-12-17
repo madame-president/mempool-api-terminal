@@ -26,22 +26,30 @@ Run these commands to confirm the installed versions:
 python --version
 git --version
 gh --version
+```
 
 #### Clone the repository
 
-• Code > Github CLI > copy the command:
+- Code > Github CLI > copy the command:
 
-```gh repo clone madame-president/mempool-api-terminal```
+```bash
+gh repo clone madame-president/mempool-api-terminal
+```
+Go to the directory:
 
-• Go to the directory:
+```bash
+cd mempool-api-terminal
+```
 
-``` cd mempool-api-terminal```
+- Install dependencies:
 
-• Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-``` pip install -r requirements.txt```
+- Run the program:
 
-• Run the program:
-
-``` python run.py```
+```bash
+python run.py
+```
 
