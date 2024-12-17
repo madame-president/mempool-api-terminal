@@ -3,8 +3,11 @@ Wallet statement generator for in-depth reports on your address current holdings
 
 ### Key features
 • Seamless download and code base under 150 lines: optimized for simplicity and minimal maintenance.
+
 • Built-in functions to fetch the data: retreive historical transactions using Mempool API server.
+
 • Transformation of request response into a data frame: manageable and easier for reporting purposes.
+
 • Intelligent automation and organized Bitcoin data: well-organized and actionable insights automatically exported to Excel.
 
 ### Installing the application
@@ -16,6 +19,7 @@ Wallet statement generator for in-depth reports on your address current holdings
 
 #### Checking version install
 • ```python --version```
+
 • ```git --version```
 
 #### Clone the repository
