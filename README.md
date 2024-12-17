@@ -14,21 +14,26 @@ Wallet statement generator for in-depth reports on your address current holdings
 
 #### Setting up your environment
 • [Install Python](https://www.python.org/downloads/)
+
 • [Install Git](https://git-scm.com/downloads)
+
 • [Install Github CLI](https://cli.github.com/)
 
 #### Checking version install
-• ```python --version```
+```python --version```
 
-• ```git --version```
+```git --version```
 
 #### Clone the repository
 
 • Code > Github CLI > copy the command:
 ```gh repo clone madame-president/mempool-api-terminal```
+
 • Go to the directory:
 ``` cd mempool-api-terminal```
+
 • Install dependencies:
 ``` pip install -r requirements.txt```
+
 • Run the program:
 ``` python run.py```
