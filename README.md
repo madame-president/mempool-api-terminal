@@ -1,5 +1,4 @@
-# Mempool API Terminal documentation
-Wallet statement generator for in-depth reports on your address current holdings and previous transactions, including price at time of transaction.
+# Mempool API Terminal: wallet statement generator for in-depth reports on your address current holdings and previous transactions, including price at time of transaction.
 
 ### Key features
 - **Seamless download and code base under 150 lines:** optimized for simplicity and minimal maintenance.
@@ -35,7 +34,7 @@ gh --version
 ```bash
 gh repo clone madame-president/mempool-api-terminal
 ```
-Go to the directory:
+- Go to the directory:
 
 ```bash
 cd mempool-api-terminal
