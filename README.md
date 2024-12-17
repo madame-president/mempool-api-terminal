@@ -37,3 +37,28 @@ Wallet statement generator for in-depth reports on your address current holdings
 
 • Run the program:
 ``` python run.py```
+
+Clone the Repository
+Follow these steps to set up the project locally:
+
+Clone the repository using GitHub CLI:
+
+bash
+Copy code
+gh repo clone madame-president/mempool-api-terminal
+Navigate to the project directory:
+
+bash
+Copy code
+cd mempool-api-terminal
+Install the required dependencies:
+
+bash
+Copy code
+pip install -r requirements.txt
+Run the program:
+
+bash
+Copy code
+python run.py
+
