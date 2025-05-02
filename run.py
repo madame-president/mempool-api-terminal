@@ -1,21 +1,21 @@
 import requests
 import pandas as pd
-from data import get_transaction_data, get_live_price
+from data import getTransactionData, getCurrentPrice
 from processing import processing
-from dataframe import convert_to_dataframe
+from dataframe import createDataframe
 
-user_address = input("Please enter a Bitcoin address: ")
-raw_data = get_transaction_data(user_address)
+userAddress = input("Please enter a Bitcoin address: ")
+rawData = getTransactionData(userAddress)
 
-if raw_data:
-    processed_raw_data = processing(raw_data, user_address)
-    print(f"Retrieved and processed {len(processed_raw_data)} transactions.")
+if rawData:
+    processedRawData = processing(rawData, userAddress)
+    print(f"Retrieved and processed {len(processedRawData)} transactions.")
 else:
     print("No transaction data retrieved.")
 
-df = convert_to_dataframe(processing(raw_data, user_address), get_live_price(), user_address)
+dataframe = createDataframe(processing(rawData, userAddress), getCurrentPrice(), userAddress)
 
-def save_to_xlsx(df, user_address, filename_prefix="address_statement"):
-    df.to_excel(f"{filename_prefix}_{user_address}.xlsx", index=False)
+def excelReport(dataframe, userAddress, filenamePrefix="address_statement"):
+    dataframe.to_excel(f"{filenamePrefix}_{userAddress}.xlsx", index=False)
 
-save_to_xlsx(df, user_address)
+excelReport(dataframe, userAddress)

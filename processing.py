@@ -1,43 +1,43 @@
 import requests
-from data import get_transaction_data, get_price_log
+from data import getTransactionData, getPriceLog
 
-def processing(raw_data, user_address):
+def processing(rawData, userAddress):
 
-    processed_data = []
-    for transaction in raw_data:
+    processedData = []
+    for transaction in rawData:
         if "txid" in transaction and "status" in transaction:
             if "block_height" in transaction["status"] and "block_time" in transaction["status"]:
                 txid = transaction["txid"]
-                block_height = transaction["status"]["block_height"]
-                block_time = transaction["status"]["block_time"]
-                input_addresses, output_addresses, sent_amount, received_amount = [], [], [], []
+                blockHeight = transaction["status"]["block_height"]
+                blockTime = transaction["status"]["block_time"]
+                inputs, outputs, sentAmount, receivedAmount = [], [], [], []
                 
                 for vin in transaction.get("vin", []):
                     if "prevout" in vin and "scriptpubkey_address" in vin["prevout"]:
                         address = vin["prevout"]["scriptpubkey_address"]
-                        input_addresses.append(address)
+                        inputs.append(address)
 
-                        if address == user_address and "value" in vin["prevout"]:
-                            sent_amount.append(vin["prevout"]["value"])
+                        if address == userAddress and "value" in vin["prevout"]:
+                            sentAmount.append(vin["prevout"]["value"])
 
                 for vout in transaction.get("vout", []):
                     if "scriptpubkey_address" in vout:
                         address = vout["scriptpubkey_address"]
-                        output_addresses.append(address)
+                        outputs.append(address)
                         
-                        if address == user_address and "value" in vout:
-                            received_amount.append(vout["value"])
+                        if address == userAddress and "value" in vout:
+                            receivedAmount.append(vout["value"])
 
-                price_data = get_price_log([block_time])
-                btc_usd_price = price_data[0].get("BTC/USD", "N/A") if price_data else "N/A"
+                priceData = getPriceLog([blockTime])
+                btcUsd = priceData[0].get("BTC/USD", "N/A") if priceData else "N/A"
                 
-                processed_data.append({
+                processedData.append({
                     "Transaction Hash": txid,
-                    "Block Index": block_height,
-                    "block_time": block_time,
-                    "received_amount": "{:.8f}".format(received_amount[0] / 1e8) if received_amount else "",
-                    "sent_amount": "{:.8f}".format(sent_amount[0] / 1e8) if sent_amount else "",
-                    "BTC/USD": "{:,.2f}".format(btc_usd_price)
+                    "Block Index": blockHeight,
+                    "Block Time": blockTime,
+                    "receivedAmount": sum(receivedAmount) / 1e8 if receivedAmount else None,
+                    "sentAmount": sum(sentAmount) / 1e8 if sentAmount else None,
+                    "BTC/USD": btcUsd
                 })
 
-    return processed_data
+    return processedData

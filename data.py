@@ -1,36 +1,40 @@
 import requests
 
-def get_transaction_data(address):
-    endpoint = f"https://mempool.space/api/address/{address}/txs"
-    raw_data, after_txid = [], None
+def getTransactionData(address):
+    staticUrl = f"https://mempool.space/api/address/{address}/txs"
+    rawData, seenTransactions = [], set()
+    after_txid = None
     try:
         while True:
-            response = requests.get(f"{endpoint}?after_txid={after_txid}" if after_txid else endpoint)
-            if response.status_code != 200:
+            queryUrl = requests.get(f"{staticUrl}?after_txid={after_txid}" if after_txid else staticUrl)
+            if queryUrl.status_code != 200:
                 return None
-            paginated_data = response.json()
-            if not paginated_data:
+            paginatedTransactions = queryUrl.json()
+            if not paginatedTransactions:
                 break
-            raw_data.extend(paginated_data)
-            after_txid = paginated_data[-1]["txid"]
-        return raw_data
+            for tx in paginatedTransactions:
+                if tx["txid"] not in seenTransactions:
+                    seenTransactions.add(tx["txid"])
+                    rawData.append(tx)
+            after_txid = paginatedTransactions[-1]["txid"] if paginatedTransactions else None
+        return rawData
     except requests.RequestException:
         return None
 
-def get_price_log(block_times, currency="USD"):
-    price_log = []
-    endpoint = "https://mempool.space/api/v1/historical-price"
+def getPriceLog(block_times, currency="USD"):
+    priceLog = []
+    staticUrl = "https://mempool.space/api/v1/historical-price"
     for block_time in block_times:
         try:
-            response = requests.get(endpoint, params={"currency": currency, "timestamp": block_time})
-            price = response.json().get("prices", [{}])[0].get(currency)
+            queryUrl = requests.get(staticUrl, params={"currency": currency, "timestamp": block_time})
+            price = queryUrl.json().get("prices", [{}])[0].get(currency)
             if price is not None:
-                price_log.append({"timestamp": block_time, f"BTC/{currency}": price})
+                priceLog.append({"timestamp": block_time, f"BTC/{currency}": price})
         except requests.RequestException:
             continue
-    return price_log
+    return priceLog
 
-def get_live_price():
+def getCurrentPrice():
     try:
         return requests.get("https://mempool.space/api/v1/prices").json().get("USD")
     except requests.RequestException:
