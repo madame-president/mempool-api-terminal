@@ -10,4 +10,4 @@ Wallet statement generator for in-depth reports on your address current holdings
 
 ## Sample file output
 
-```address_statement_1LS1h8UJFgAFqRsw8WqjszBdJWDQg3hj6d``` is an example of the quality report mempool-api-terminal produces.
+```address_statement_1LS1h8UJFgAFqRsw8WqjszBdJWDQg3hj6d``` is an example report.
